@@ -2,6 +2,7 @@
 
 namespace SalesDashboard\Controller;
 use SalesDashboard\Service\DbService;
+use SalesDashboard\Service\JsonImporterService;
 use SalesDashboard\Service\PaginatorService;
 use SalesDashboard\Model\SalesModel;
 use SalesDashboard\View\SalesView;
@@ -26,7 +27,7 @@ class SalesController
         $filterPrice = $_GET['price'] ?? '';
 
         // Pagination parameters
-        $itemsPerPage = 5;
+        $itemsPerPage = 25;
         $currentPage = $_GET['page'] ?? 1;
 
         // Fetch sales data and total pages from the model
@@ -50,5 +51,29 @@ class SalesController
         }
 
         return $totalPrice;
+    }
+
+    public function importJson(){
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["import_json"])) {
+            if (isset($_FILES["jsonFile"])) {
+                $jsonFile = $_FILES["jsonFile"];
+                $jsonImporter = new JsonImporterService(__DIR__ . '/uploads');
+                // Import JSON data
+                $resultMessage = $jsonImporter->importJson($jsonFile);
+                if ($resultMessage["success"]) {
+                    // Use the SalesModel function to save the sales data
+
+                    $this->model->saveSalesData(json_decode($resultMessage['data'],true));
+                    echo "<div class='text-center mt-5'>JSON Data successfully imported. Please <a href='index.php'> click here </a> to view report.</div>";
+                } else {
+                    echo "<div class='text-center mt-5'>Import failed. " . $resultMessage["message"].'</div>';
+                }
+
+            } else {
+                echo "Invalid file upload.";
+            }
+        }
+        $this->view->renderImportJson();
     }
 }

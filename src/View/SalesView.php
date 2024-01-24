@@ -102,7 +102,7 @@ class SalesView
                     <div class="col-md-3">
                         <label class="form-label">&nbsp;</label>
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-success">Import JSON</button>
+                            <a href="import_json.php" class="btn btn-success">Import JSON</a>
                         </div>
                     </div>
                 </div>
@@ -114,6 +114,7 @@ class SalesView
                 <tr>
                     <th>Sale ID</th>
                     <th>Customer Name</th>
+                    <th>Sale Date</th>
                     <th>Product Name</th>
                     <th>Product Price</th>
                 </tr>
@@ -123,13 +124,14 @@ class SalesView
                     <tr>
                         <td><?= $row['sales_id'] ?></td>
                         <td><?= $row['customer_name'] ?></td>
+                        <td><?= $row['ordered_at'] ?></td>
                         <td><?= $row['product_name'] ?></td>
                         <td><?= $row['product_price'] ?></td>
                     </tr>
                 <?php endforeach; ?>
                     <tr>
-                        <td colspan="3" class="text-right">Total:</td>
-                        <td><?= $totalPrice ?></td>
+                        <td colspan="4" style="text-align: right"><b>Total:</b></td>
+                        <td><b><?= $totalPrice ?></b></td>
                     </tr>
                 </tbody>
             </table>
@@ -153,8 +155,6 @@ class SalesView
                 </ul>
             </nav>
         </div>
-
-        <!-- Bootstrap JS (optional, for dropdowns, modals, etc.) -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script>
             $(document).ready(function (){
@@ -172,4 +172,39 @@ class SalesView
         </html>
         <?php
     }
+
+    public function renderImportJson(){?>
+
+        <!-- import_json_view.php -->
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Import JSON Data</title>
+            <!-- Bootstrap CSS link -->
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body>
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Import JSON Data</h1>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="hidden" name="import_json" value="1">
+                            <label for="jsonFile">Choose a JSON file:</label>
+                            <input type="file" class="form-control-file" name="jsonFile" id="jsonFile" accept=".json" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Import</button>
+                        <br>
+                        <br>
+                        <a href="index.php"> <- Back to Home</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </body>
+        </html>
+    <?php }
 }
