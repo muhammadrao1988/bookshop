@@ -1,0 +1,13 @@
+{
+    "name": "book-shop/sales-dashboard",
+    "description": "Book Shop Sales Dashboard",
+    "type": "project",
+    "require": {
+        "php": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "SalesDashboard\\": "src/"
+        }
+    }
+}
