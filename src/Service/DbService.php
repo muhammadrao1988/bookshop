@@ -26,7 +26,7 @@ class DbService
             $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
             // Handle connection errors
-            die("Connection failed: " . $e->getMessage());
+            die("Connection failed: Please check your database connection in src/Service/DbService.php. " . $e->getMessage());
         }
     }
 
